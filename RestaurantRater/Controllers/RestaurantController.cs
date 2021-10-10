@@ -63,5 +63,30 @@ namespace RestaurantRater.Controllers
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        // GET: Restaurant/Edit/{id}
+        // Get an id from the user. 
+        // Handle if the id is null
+        // Find a Restaurant by that id
+        // If the restaurant doesn't exist
+        // Return the restaurant and the view
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // User didn't give everything needed.  
+            }
+            Restaurant restaurant = _db.Restaurants.Find(id); // Call the restaurant table and find restaurant by it's key.  
+            if (restaurant == null)
+            {
+                return HttpNotFound(); // Can also code it like this... return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            return View(restaurant);
+        }
+         
+
+
+
+        // POST: Restaurant/Edit/{id}
     }
 }
