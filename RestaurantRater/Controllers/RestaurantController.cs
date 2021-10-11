@@ -1,6 +1,7 @@
 ﻿using RestaurantRater.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -83,10 +84,19 @@ namespace RestaurantRater.Controllers
             }
             return View(restaurant);
         }
-         
-
-
 
         // POST: Restaurant/Edit/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Restaurant restaurant)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Entry(restaurant).State = EntityState.Modified; // Entry = Look through the table and see if it can find a model that matches up with one we are giving. 
+                _db.SaveChanges(); // Find anything in a row that has been modified and save changes.  
+                return RedirectToAction("Index");
+            }
+            return View(restaurant); // Returning exactly what the user gave me.
+        }
     }
 }
