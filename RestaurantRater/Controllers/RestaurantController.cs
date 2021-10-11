@@ -26,7 +26,8 @@ namespace RestaurantRater.Controllers
 
         // POST: Restaurant/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]  //Html.AntiForgeryToken creates a hidden form field that is validated by the ValidateAntiForgeryToken
+                                    //annotation when the POST method gets called
         public ActionResult Create(Restaurant restaurant)
         {
             if (ModelState.IsValid)
@@ -54,7 +55,7 @@ namespace RestaurantRater.Controllers
             return View(restaurant);
         }
 
-        // POST: Restaurant/Delete/{id}
+        // POST: Restaurant/Delete/{id}  //What is special about a POST method?   It's used when information is being sent from the view to the controller.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
@@ -62,7 +63,8 @@ namespace RestaurantRater.Controllers
             Restaurant restaurant = _db.Restaurants.Find(id);
             _db.Restaurants.Remove(restaurant);
             _db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index");  //If I called the Load() action and I want the Render() action to fire off after Load
+                                               //is done, I would use return RedirectToAction("Render").
         }
 
         // GET: Restaurant/Edit/{id}
@@ -114,4 +116,6 @@ namespace RestaurantRater.Controllers
             return View(restaurant);
         }
     }
+
+    //In the Create.cshtml (In View Folder), the object type is anonymous in the code...   new {@class = "text-danger"}
 }
