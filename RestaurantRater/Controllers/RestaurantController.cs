@@ -98,5 +98,20 @@ namespace RestaurantRater.Controllers
             }
             return View(restaurant); // Returning exactly what the user gave me.
         }
+
+        // GET: Restaurant/Details/{id}
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // User didn't give everything needed.  
+            }
+            Restaurant restaurant = _db.Restaurants.Find(id); // Calling the database table Restaurants and trying to find the restaurant by it's key.
+            if (restaurant == null)
+            {
+                return HttpNotFound(); // Couldn't find what user is looking for.
+            }
+            return View(restaurant);
+        }
     }
 }
